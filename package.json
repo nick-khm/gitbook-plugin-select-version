@@ -1,0 +1,7 @@
+{
+  "name": "gitbook-plugin-select-version",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nick Kharaim <nick.kharaim@gmail.com>",
+  "license": "MIT"
+}
