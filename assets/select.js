@@ -39,7 +39,7 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
                         </select>
                     </label>
                     `;
-                    $("nav[role=navigation]").prepend(output);
+                    $("#book-search-input").before(output);
 
                     $(".versions-select select").change(function() {
                         console.log('select is changed >> gitbook.state.bookRoot', gitbook.state.bookRoot);
