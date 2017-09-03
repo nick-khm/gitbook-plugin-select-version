@@ -52,7 +52,7 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
                             window.location.href = version_url;
                         } else {
                             /* path_url is different of gitbook.state.filepath because of multiple projects */
-                            var path_url = gitbook.state.bookRoot.split(current_version.url)[1] || "";
+                            var path_url = window.location.href.split(current_version.url)[1] || "";
                             var redirect_url = `${version_url}${path_url}`;
                             console.log("redirect to ", redirect_url);
                             window.location.href = redirect_url;
