@@ -4,6 +4,9 @@ module.exports = {
         js: [
             './select.js'
         ],
+        css: [
+            './select.css'
+        ],
         // still not work!
         html: {
             'html:end': function() {
