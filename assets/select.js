@@ -22,7 +22,7 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
                 .then(function(versions){
                     console.log("versions", versions);
 
-                    var output = `<a href="/" id="brand-logo"><img src="/assets/thingparkx_logo.png" style="width: 100%;padding: 10px;"></a>`;
+                    var output = '';
                     versions.forEach((version) => {
                         var selected = "";
                         if(gitbook.state.bookRoot.match(version.name)){
@@ -33,6 +33,7 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
                     });
 
                     output = `
+                    <a href="/" id="brand-logo"><img src="/assets/thingparkx_logo.png" style="width: 100%;padding: 10px;"></a>
                     <label class="versions-select">
                         <select>
                             ${output}
