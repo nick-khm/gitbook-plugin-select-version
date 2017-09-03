@@ -1,6 +1,6 @@
 require(['gitbook', 'jQuery'], function (gitbook, $) {
     var versions = [];
-    var current;
+    var current_version;
     var pluginConfig = {};
     var STORAGE_SELECTED_VERSION = "selected_version"
 
@@ -12,8 +12,6 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
     });
 
     gitbook.events.bind('page.change', function () {
-        var selected_version = gitbook.storage.get(STORAGE_SELECTED_VERSION);
-        console.log('storage get selected version', selected_version);
         gitbook.storage.remove(STORAGE_SELECTED_VERSION);
 
         console.log('event page.change >> gitbook var', gitbook);
@@ -26,7 +24,11 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
 
                     var output = "";
                     versions.forEach((version) => {
-                        var selected = (selected_version === version.url) ? 'selected="selected"' : '';
+                        var selected = "";
+                        if(gitbook.state.bookRoot.match(version.name)){
+                            selected = 'selected="selected';
+                            current_version = version;
+                        }
                         output += `<option ${selected} value="${version.url}">${version.name}</option>`;
                     });
 
@@ -42,11 +44,19 @@ require(['gitbook', 'jQuery'], function (gitbook, $) {
                     $(".versions-select select").change(function() {
                         console.log('select is changed >> gitbook.state.bookRoot', gitbook.state.bookRoot);
                         console.log('select is changed >> gitbook.state.filepath', gitbook.state.filepath);
+                        var base_url = gitbook.state.bookRoot
                         var version_url = $(".versions-select select").val();
-                        var redirect_url = `${gitbook.state.bookRoot}${gitbook.state.filepath.replace(/README\.md/, "")}`;
-                        console.log("redirect to ", redirect_url);
-                        gitbook.storage.set(STORAGE_SELECTED_VERSION, version_url);
-                        window.location.href = redirect_url;
+
+                        if(version_url.match(/^http/)) {
+                            // if version is an absolute link
+                            window.location.href = version_url;
+                        } else {
+                            /* path_url is different of gitbook.state.filepath because of multiple projects */
+                            var path_url = gitbook.state.bookRoot.split(current_version.url)[1] || "";
+                            var redirect_url = `${version_url}${path_url}`;
+                            console.log("redirect to ", redirect_url);
+                            window.location.href = redirect_url;
+                        }
                     });
                 });
 
